@@ -1,0 +1,22 @@
+CLAUDE.md
+handson-ml3/
+
+# large course data (re-downloadable from LMS)
+*.pkl
+
+# trained models and submission archives
+*.keras
+*.h5
+*.zip
+
+# keras-tuner search output
+untitled_project/
+*_tuning/
+
+# jupyter / python
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]
+
+# windows / onedrive junk
+desktop.ini

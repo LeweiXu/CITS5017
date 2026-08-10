@@ -1,0 +1,42 @@
+# File name: tf-2.20-gpu.yml
+# Author: Du Huynh
+#
+# This YAML file is designed for setting up a TensorFlow environment
+# for computers that have a GPU. It has been tested on a PC that
+# uses Intel processors and that runs Ubuntu 22.04 LTS. If your
+# computer does not have Intel processors, then delete the line for
+# scikit-learn-intelex.
+#
+# As of January 2026, the latest version of TensorFlow is 2.20. However,
+# the TensorFlow API shown on the web is still version 2.16.1,
+#
+# Note: tensorflow-cpu 2.20 is compatible with Python version 3.9 to 3.12.
+#
+# To create the environment named "tf-2.20-gpu", type:
+#   conda env create --file tf-2.20-gpu.yml
+#
+# Du Huynh
+# Jan 2026
+#
+name: tf-2.20-gpu
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - python==3.12
+  - pip
+  - pip:
+    - tensorflow[and-cuda]==2.20
+    - tensorflow-datasets
+    - keras_tuner
+    - transformers
+    - gymnasium
+    - scipy
+    - swig
+  - scikit-learn
+  - scikit-learn-intelex  # remove this entire line for non-Intel computers
+  - notebook     # this would install Jupyter-notebook and Jupyter-lab
+  - ipywidgets
+  - seaborn      # for graphs/plots. This would install Matplotlib
+  - openpyxl     # for handling Excel files
+  - chardet
