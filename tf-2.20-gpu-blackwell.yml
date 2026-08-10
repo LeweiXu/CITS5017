@@ -1,0 +1,51 @@
+# Blackwell (RTX 50-series) version of the unit's tf-2.20-gpu.yml.
+#
+# Why this file exists: the unit's tf-2.20-gpu.yml installs TensorFlow from pip,
+# and pip TensorFlow does not work on an RTX 5070. The wheel is compiled for
+# ['sm_60','sm_70','sm_80','sm_89','compute_90'] and a 5070 is sm_120, so every
+# kernel launch fails with CUDA_ERROR_INVALID_HANDLE before fit() is ever reached.
+# compute_90 PTX can't be JIT-forwarded to sm_120 either, because consumer
+# Blackwell is not a superset of Hopper. See CLAUDE.md for the full write-up.
+#
+# The fix is to get TensorFlow from conda instead, from a build whose arch list
+# actually contains sm_120. This one is TF 2.21 / CUDA 13.0, verified training on
+# the 5070 (CNN 0.33 s/epoch, NASNetMobile fine-tune 9.4 s/epoch, peak 1.96 GiB).
+#
+# The env keeps the name tf-2.20-gpu so "conda activate tf-2.20-gpu" still works,
+# even though it now holds TF 2.21.
+#
+# To rebuild from scratch:
+#   conda env create --file tf-2.20-gpu-blackwell.yml
+#
+# On a non-Blackwell machine, use the unit's original tf-2.20-gpu.yml instead.
+#
+name: tf-2.20-gpu
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.12
+  # must be a conda build with sm_120 in cuda_compute_capabilities; check with
+  #   tf.sysconfig.get_build_info()["cuda_compute_capabilities"]
+  - tensorflow=2.21.0=cuda130py312*
+  - scikit-learn
+  - notebook          # Jupyter notebook + lab
+  - ipywidgets
+  - seaborn           # pulls in matplotlib
+  - pandas
+  - scipy
+  - openpyxl          # Excel files
+  - chardet
+  - pip
+  - pip:
+    # tensorboard is NOT pulled in by the conda tensorflow package, and
+    # keras-tuner imports it on every trial. Without it the project 1 tuner
+    # search fails immediately.
+    - tensorboard
+    - keras-tuner
+    - tensorflow-datasets
+    - transformers
+    - gymnasium
+    - swig
+    # no py312 build on defaults, so it comes from pip here
+    - scikit-learn-intelex   # remove this line for non-Intel computers
