@@ -13,6 +13,9 @@ handson-ml3/
 untitled_project/
 *_tuning/
 
+# tensorboard run logs
+my_*_logs/
+
 # jupyter / python
 .ipynb_checkpoints/
 __pycache__/
