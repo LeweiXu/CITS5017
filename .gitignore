@@ -25,3 +25,5 @@ __pycache__/
 desktop.ini
 
 *backup.ipynb
+# session handoff notes
+HANDOFF.md
