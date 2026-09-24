@@ -24,6 +24,6 @@ __pycache__/
 # windows / onedrive junk
 desktop.ini
 
-*backup.ipynb
+*backup*.ipynb
 # session handoff notes
 HANDOFF.md
